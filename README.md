@@ -26,4 +26,4 @@ This project is licensed under Apache
 + [Neeraj Sonawne](https://www.facebook.com/neerajsonawane)
 + [Piyush Talreja](https://www.facebook.com/ipiyushtalreja)
 
-** Note :** Read [Wiki](https://github.com/abdulnine7/BrainBot/wiki) to know about how to use this project.
+**Note :** Read [Wiki](https://github.com/abdulnine7/BrainBot/wiki) to know about how to use this project.
