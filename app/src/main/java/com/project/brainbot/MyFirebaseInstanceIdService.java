@@ -27,55 +27,62 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        Log.e(TAG, "Refreshed token: " + refreshedToken);
 
         storeToken(refreshedToken);
-        registerOnServer(refreshedToken);
+//        registerOnServer(refreshedToken);
     }
 
     private void storeToken(String refreshedToken) {
         SharedPrefManager.getInstance(getApplicationContext()).saveDeviceToken(refreshedToken);
     }
 
-    void registerOnServer(final String token) {
-
-        String[] details = SharedPrefManager.getInstance(getApplicationContext()).getLoginDetails();
-        final String email = details[0];
-        final String password = details[1];
-
-        if (token == null) {
-            Toast.makeText(this, "Token not generated", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_REGISTRATION,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            Toast.makeText(MyFirebaseInstanceIdService.this, obj.getString("message"), Toast.LENGTH_LONG).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MyFirebaseInstanceIdService.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email);
-                params.put("password", password);
-                params.put("token", token);
-                return params;
-            }
-        };
-        MyVolley.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
-    }
+//    void registerOnServer(final String token) {
+//
+//        String[] details = SharedPrefManager.getInstance(getApplicationContext()).getLoginDetails();
+//        final String email;
+//        final String password;
+//
+//        if (details != null) {
+//            email = details[0];
+//            password = details[1];
+//        } else {
+//            return;
+//        }
+//
+//        if (token == null) {
+//            Toast.makeText(this, "Token not generated", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.MY_HOST + Constants.URL_REGISTRATION,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            JSONObject obj = new JSONObject(response);
+//                            Toast.makeText(MyFirebaseInstanceIdService.this, obj.getString("message"), Toast.LENGTH_LONG).show();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(MyFirebaseInstanceIdService.this, error.getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+//                }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("email", email);
+//                params.put("password", password);
+//                params.put("token", token);
+//                return params;
+//            }
+//        };
+//        MyVolley.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+//    }
 }
 

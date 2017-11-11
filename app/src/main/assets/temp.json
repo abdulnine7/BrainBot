@@ -6,5 +6,13 @@
       "www.google.com/BrainBot"
     ],
     "createdAt": "1506856337700"
+  },
+  {
+    "message": "Nice to meet you.",
+    "sender": [
+      "BrainBot",
+      "www.google.com/BrainBot"
+    ],
+    "createdAt": "1506856337700"
   }
 ]

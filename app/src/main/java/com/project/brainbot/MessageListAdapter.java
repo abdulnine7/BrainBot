@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MessageListAdapter extends RecyclerView.Adapter {
     private Context mContext;
@@ -72,7 +73,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         return mMessageList.size();
     }
 
-    public void updateNotify(){
+    public void updateNotify() {
         notifyDataSetChanged();
     }
 
@@ -98,7 +99,10 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             nameText.setText(message.getSender().getNickname());
 
             // Insert the profile image from the URL into the ImageView.
-            profileImage.setImageDrawable(profileImage.getResources().getDrawable(R.drawable.circle));
+            if (Objects.equals(message.getSender().getNickname(), "BrainBot"))
+                profileImage.setImageDrawable(profileImage.getResources().getDrawable(R.drawable.circle_bb));
+            else
+                profileImage.setImageDrawable(profileImage.getResources().getDrawable(R.drawable.circle_user));
         }
     }
 
@@ -120,4 +124,6 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             timeText.setText(Utils.formatDateTime(message.getCreatedAt()));
         }
     }
+
+
 }

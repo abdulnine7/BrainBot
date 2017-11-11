@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.brainbot.LoginActivity">
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="768dp"
+        android:layout_height="1280dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bgimg"
+        android:scaleType="fitXY"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="190dp"
+        android:layout_height="160dp"
+        app:srcCompat="@drawable/header_logo"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp" />
+
+
+    <EditText
+        android:id="@+id/signin_mail"
+        android:layout_width="303dp"
+        android:layout_height="46dp"
+        android:layout_above="@+id/signin_password"
+        android:layout_alignLeft="@+id/signin_password"
+        android:layout_alignStart="@+id/signin_password"
+        android:layout_marginBottom="26dp"
+        android:background="@drawable/usernm"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="40dp"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="260dp" />
+
+    <EditText
+        android:id="@+id/signin_password"
+        android:layout_width="303dp"
+        android:layout_height="46dp"
+        android:layout_above="@+id/button_signin"
+        android:layout_alignLeft="@+id/button_signin"
+        android:layout_alignStart="@+id/button_signin"
+        android:layout_marginBottom="39dp"
+        android:background="@drawable/password"
+        android:ems="10"
+        android:paddingLeft="40dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="326dp" />
+
+    <Button
+        android:id="@+id/button_signin"
+        android:layout_width="303dp"
+        android:layout_height="46dp"
+        android:layout_above="@+id/button_register"
+        android:layout_alignLeft="@+id/button_register"
+        android:layout_alignStart="@+id/button_register"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/nwsign"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:text="Sign In"
+        android:textAllCaps="false"
+        android:textColor="@android:color/background_light"
+        android:textColorLink="@android:color/background_light"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="408dp" />
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="303dp"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp"
+        android:background="@drawable/registernw"
+        android:text="Register"
+        android:textAllCaps="false"
+        android:textColor="@android:color/background_light"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="472dp" />
+
+</RelativeLayout>

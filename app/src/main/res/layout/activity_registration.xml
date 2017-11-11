@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.project.brainbot.RegistrationActivity">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="768dp"
+            android:layout_height="1280dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/bgimg" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="190dp"
+            android:layout_height="160dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:srcCompat="@drawable/logo"
+            tools:layout_editor_absoluteX="97dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView2"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            android:layout_centerHorizontal="true"
+            android:text="Welcome to BrainBot.\nA Chatbot that learns."
+            android:textColor="#33b5e8"
+            android:paddingBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/reg_fullName"
+            android:layout_width="303dp"
+            android:layout_height="46dp"
+            android:layout_below="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="61dp"
+            android:background="@drawable/usernm"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            android:paddingLeft="40dp" />
+
+        <EditText
+            android:id="@+id/reg_password"
+            android:layout_width="303dp"
+            android:layout_height="46dp"
+            android:layout_alignLeft="@+id/reg_fullName"
+            android:layout_alignStart="@+id/reg_fullName"
+            android:layout_below="@+id/reg_fullName"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/password"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="40dp" />
+
+        <EditText
+            android:id="@+id/reg_email"
+            android:layout_width="303dp"
+            android:layout_height="46dp"
+            android:layout_below="@+id/reg_password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/emailnw"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="40dp" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="303dp"
+            android:layout_height="46dp"
+            android:layout_below="@+id/reg_email"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/registernw"
+            android:text="Register"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+</ScrollView>

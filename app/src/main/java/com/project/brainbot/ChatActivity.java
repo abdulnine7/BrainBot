@@ -1,8 +1,11 @@
 package com.project.brainbot;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +26,9 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,23 +37,25 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private RecyclerView mMessageRecycler;
-    private MessageListAdapter mMessageAdapter;
-    List<Message> messageList;
+    private static final int REQ_CODE_SPEECH_INPUT = 100;
+    protected RecyclerView mMessageRecycler;
+    protected MessageListAdapter mMessageAdapter;
+    protected List<Message> messageList;
+    public boolean global;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        messageList = MyJSON.getMessageList(this);
+        messageList = MyJSON.getMessageList(this, global);
 
         mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
         mMessageAdapter = new MessageListAdapter(this, messageList);
         mMessageRecycler.setAdapter(mMessageAdapter);
         mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        Button send = (Button) findViewById(R.id.button_chatbox_send);
+        final Button send = (Button) findViewById(R.id.button_chatbox_send);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,27 +66,62 @@ public class ChatActivity extends AppCompatActivity {
 
                 if (!Objects.equals(s, "")) {
                     sendRequest(s);
-                    updateView(s, true);
+                    Message my_message = makeMyMessage(s);
+                    updateView(my_message, true);
+                    MyJSON.writeFile(my_message, global);
+                    if (global)
+                        sendPush(my_message);
                 }
             }
         });
+
+        send.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                startVoiceInput();
+                return false;
+            }
+        });
+
+        mMessageRecycler.scrollToPosition(mMessageAdapter.getItemCount() - 1);
     }
 
-    private void updateView(String text_message, boolean self) {
-        Message m = new Message();
-        m.message = text_message;
-        m.createdAt = System.currentTimeMillis();
-        if (self) {
-            m.sender.setNickname("self");
-            m.sender.setProfileUrl("www.google.com/self");
-        } else {
-            m.sender.setNickname("BrainBot");
-            m.sender.setProfileUrl("www.google.com/brainbot");
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hello, I am BrainBot\n How can I help you?");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            a.printStackTrace();
         }
-        messageList.add(m);
-        MyJSON.writeFile(m, this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    TextView text = (TextView) findViewById(R.id.edittext_chatbox);
+                    text.setText(result.get(0));
+                }
+                break;
+            }
+
+        }
+    }
+
+    protected void updateView(Message message, boolean self) {
+        messageList.add(message);
         mMessageAdapter.updateNotify();
-        mMessageRecycler.scrollBy(0, 500);
+        mMessageRecycler.scrollToPosition(mMessageAdapter.getItemCount() - 1);
+
+        if (!self)
+            playTone();
     }
 
     public int sendRequest(final String s) {
@@ -100,7 +142,6 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         MyVolley.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
-
         return 0;
     }
 
@@ -128,19 +169,43 @@ public class ChatActivity extends AppCompatActivity {
             Document doc = dBuilder.parse(is);
 
             doc.getDocumentElement().normalize();
+
             Element eElement = doc.getDocumentElement();
             Constants.setConversationId(eElement.getAttribute("conversation"));
             //Log.d("CONVERSATION ::", eElement.getAttribute("conversation"));
 
             text_message = eElement.getElementsByTagName("message").item(0).getTextContent();
-            updateView(text_message, false);
-            playTone();
+
+            Message brainbot_message = makeBBMessage(text_message);
+            updateView(brainbot_message, false);
+            MyJSON.writeFile(brainbot_message, global);
+
+            if (global)
+                sendPush(brainbot_message);
 
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private Message makeBBMessage(String text_message) {
+        Message message = new Message();
+        message.message = text_message;
+        message.createdAt = System.currentTimeMillis();
+        message.sender.setNickname("BrainBot");
+        message.sender.setProfileUrl("www.google.com/brainbot");
+        return message;
+    }
+
+    private Message makeMyMessage(String text_message) {
+        Message message = new Message();
+        message.message = text_message;
+        message.createdAt = System.currentTimeMillis();
+        message.sender.setNickname("self");
+        message.sender.setProfileUrl("www.google.com/self");
+        return message;
     }
 
     public void playTone() {
@@ -162,5 +227,8 @@ public class ChatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    protected void sendPush(Message message) {
     }
 }
