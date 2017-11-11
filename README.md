@@ -3,7 +3,7 @@
 
 This is BrainBot App an app use to chat with AI BrainBot for entertainment and to get updates about different things like whether and time.
 
-**Downloads **
+**Downloads**
 
  Get server side codes of brainbot on https://github.com/abdulnine7/BrainBot-Serverside
 
