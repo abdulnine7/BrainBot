@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "351175953707",
+    "firebase_url": "https://brainbot-d227e.firebaseio.com",
+    "project_id": "brainbot-d227e",
+    "storage_bucket": "brainbot-d227e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351175953707:android:111f5aafe227f3f0",
+        "android_client_info": {
+          "package_name": "com.project.brainbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351175953707-2f4t9t90vj8f3qb0lhjshin5smsajcaj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.brainbot",
+            "certificate_hash": "1c903c74794acf765bc9b175091168fa457ef61c"
+          }
+        },
+        {
+          "client_id": "351175953707-lcl1ckhhs12fot7knpg71qs1tlkrb903.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsyiIV8IT92hEkVB8NIIzeO87nH4tvq3w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351175953707-lcl1ckhhs12fot7knpg71qs1tlkrb903.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
